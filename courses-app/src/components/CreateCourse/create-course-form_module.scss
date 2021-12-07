@@ -1,0 +1,13 @@
+.create-course-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    position: absolute;
+    width: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%);
+    box-shadow: 0 0 50px 20px;
+    background-color: white;
+    z-index: 1;
+}

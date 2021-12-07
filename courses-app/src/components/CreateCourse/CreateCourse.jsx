@@ -1,12 +1,9 @@
-import Button from '../../common/Button/Button';
+import { Button } from '../../common/Button/Button';
 import React from 'react';
-import Input from '../../common/Input/Input';
+import { Input } from '../../common/Input/Input';
+import './create-course-form_module.scss';
 
-export default function CreateCourse({
-	newCourse,
-	handleSubmit,
-	handleChange,
-}) {
+export const CreateCourse = ({ newCourse, handleSubmit, handleChange }) => {
 	const formStyles = {
 		display: 'flex',
 		flexDirection: 'column',
@@ -22,7 +19,7 @@ export default function CreateCourse({
 	};
 
 	return (
-		<form onSubmit={handleSubmit} style={formStyles}>
+		<form onSubmit={handleSubmit} className='create-course-form'>
 			<label>
 				<strong>title</strong>
 			</label>
@@ -45,9 +42,9 @@ export default function CreateCourse({
 				<strong>author</strong>
 			</label>
 			<Input
-				name='author'
+				name='authors'
 				placeholder='author'
-				value={newCourse.author || ''}
+				value={newCourse.authors || ''}
 				onChange={handleChange}
 			/>
 			<label>
@@ -58,8 +55,9 @@ export default function CreateCourse({
 				placeholder='duration'
 				value={newCourse.duration || ''}
 				onChange={handleChange}
+				type='number'
 			/>
 			<Button name='save' type='submit' />
 		</form>
 	);
-}
+};

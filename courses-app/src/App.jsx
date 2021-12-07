@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import Header from './components/Header/Header';
-import SearchBar from './components/Courses/components/SearchBar/SearchBar';
-import Button from './common/Button/Button';
-import CourseCard from './components/Courses/components/CourseCard/CourseCard';
-import CreateCourse from './components/CreateCourse/CreateCourse';
+import React, { useState, useEffect } from 'react';
+import { Header } from './components/Header/Header';
+import { SearchBar } from './components/Courses/components/SearchBar/SearchBar';
+import { CreateCourse } from './components/CreateCourse/CreateCourse';
+import { Courses } from './components/Courses/Courses';
+import { Welcome } from './components/Welcome/Welcome';
+import { CourseInfo } from './components/CourseInfo/CourseInfo';
+import { getResourse } from './components/Api/Api';
+import { Routes, Route } from 'react-router-dom';
+import { RegistrationFrom } from './components/Registration/Registration';
+import { LoginFrom } from './components/Login/Login';
+import { Button } from './common/Button/Button';
+import { useNavigate } from 'react-router';
 
 export default function App() {
 	const mainStyles = {
@@ -14,45 +21,18 @@ export default function App() {
 		flexDirection: 'column',
 	};
 
-	const coursesByDefault = [
-		{
-			title: 'Java',
-			description: `Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text ever
-            since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s with
-            the release of Letraset sheets containing Lorem Ipsum passages, and
-            more recently with desktop publishing software like Aldus PageMaker
-            including versions of Lorem Ipsum.`,
-			author: 'Mikita Klepanosau',
-			duration: 72,
-			date: '14.09.1997',
-			id: '0',
-		},
-		{
-			title: 'React',
-			description: `Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text ever
-            since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s with
-            the release of Letraset sheets containing Lorem Ipsum passages, and
-            more recently with desktop publishing software like Aldus PageMaker
-            including versions of Lorem Ipsum.`,
-			author: 'Mikita Klepanosau',
-			duration: 33,
-			date: '14.09.1997',
-			id: '1',
-		},
-	];
+	useEffect(() => {
+		getResourse('http://localhost:3000/courses/all').then((response) =>
+			setAllCourses(response.result)
+		);
+	}, []);
 
 	const [newCourse, setNewCourse] = useState({});
-	const [allCourses, setAllCourses] = useState(coursesByDefault);
+	const [allCourses, setAllCourses] = useState([]);
 	const [modalIsVisible, setVisible] = useState(false);
 	const [searchValue, setSearchInput] = useState('');
+	const [isLogedIn, setLogedIn] = useState(false);
+	let navigate = useNavigate();
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -60,6 +40,7 @@ export default function App() {
 		setAllCourses((prev) => [newCourse, ...prev]);
 		setNewCourse({});
 		setVisible(!modalIsVisible);
+		navigate('/courses/');
 	};
 
 	const handleRemove = (courseId) => {
@@ -72,7 +53,7 @@ export default function App() {
 		setNewCourse((prev) => ({
 			...prev,
 			[name]: value,
-			id: allCourses.length.toString(),
+			id: allCourses.length,
 		}));
 	};
 
@@ -87,15 +68,20 @@ export default function App() {
 
 	const handleClick = () => {
 		setVisible(!modalIsVisible);
+		navigate('/addCourse/');
 	};
 
 	return (
 		<div className='wrapper'>
-			<Header />
+			<Header
+				navigate={navigate}
+				isLogedIn={isLogedIn}
+				setLogedIn={setLogedIn}
+			/>
 			<main style={mainStyles}>
 				<nav>
 					<SearchBar searchItems={searchItems} />
-					<Button name='Add new course' handleClick={handleClick} />
+					<Button name='new course' handleClick={handleClick} />
 				</nav>
 				{modalIsVisible && (
 					<CreateCourse
@@ -104,8 +90,25 @@ export default function App() {
 						handleChange={handleChange}
 					/>
 				)}
+				<Routes>
+					<Route path='/' exact element={<Welcome />}></Route>
+					<Route
+						path='/courses'
+						element={
+							<Courses allCourses={allCourses} handleRemove={handleRemove} />
+						}
+					></Route>
 
-				<CourseCard allCourses={allCourses} handleRemove={handleRemove} />
+					<Route path='/courseInfo/:id' element={<CourseInfo />} />
+					<Route
+						path='/registration/'
+						element={<RegistrationFrom navigate={navigate} />}
+					/>
+					<Route
+						path='/login/'
+						element={<LoginFrom setLogedIn={setLogedIn} navigate={navigate} />}
+					/>
+				</Routes>
 			</main>
 		</div>
 	);

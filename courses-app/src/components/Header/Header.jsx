@@ -1,21 +1,27 @@
-import Logo from './components/Logo/Logo';
-import Button from '../../common/Button/Button';
+import { Logo } from './components/Logo/Logo';
+import { Button } from '../../common/Button/Button';
+import { Link } from 'react-router-dom';
+import './header_module.scss';
 
-export default function Header() {
-	const headerStyles = {
-		display: 'flex',
-		padding: '10px 20px',
-		boxSizing: 'border-box',
-		border: '2px solid red',
-		backgroundColor: '#222222',
-		alignItems: 'center',
-	};
-
+export const Header = ({ isLogedIn, navigate, setLogedIn }) => {
 	return (
-		<div style={headerStyles}>
+		<div className='header'>
 			<Logo />
-			<div>Мыкыта</div>
-			<Button name='Logout' />
+			{isLogedIn ? (
+				<>
+					<div className='header__user-name'>Привет, Мыкыта</div>
+					<Button
+						name='Logout'
+						handleClick={() => {
+							setLogedIn(true);
+						}}
+					/>
+				</>
+			) : (
+				<Link className='header__signin-btn' to='/registration'>
+					sign In
+				</Link>
+			)}
 		</div>
 	);
-}
+};
