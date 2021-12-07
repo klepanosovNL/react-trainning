@@ -1,0 +1,19 @@
+.header {
+    display: flex;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    border: 2px solid red;
+    background-color: #222222;
+    align-items: center;
+
+    &__user-name {
+        color: green;
+		font-weight: bold;
+		font-size: 24px;
+		margin: 0 25px;
+    }
+
+    &__signin-btn {
+        color: white;
+    }
+}

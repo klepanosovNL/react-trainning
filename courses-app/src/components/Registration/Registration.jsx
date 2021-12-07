@@ -4,21 +4,10 @@ import { Link } from 'react-router-dom';
 import { postResourse } from '../Api/Api';
 
 export const RegistrationFrom = ({ navigate }) => {
-	const formStyles = {
-		display: 'flex',
-		flexDirection: 'column',
-		maxWidth: '500px',
-		margin: '0 auto',
-		width: '100%',
-		border: '2px solid yellow',
-		padding: '20px',
-		boxSizing: 'border-box',
-	};
-
 	const submitForm = (event) => {
 		event.preventDefault();
-		const { name, password, email } = event.target;
 
+		const { name, password, email } = event.target;
 		const user = {
 			name: name.value,
 			password: password.value,
@@ -31,7 +20,7 @@ export const RegistrationFrom = ({ navigate }) => {
 	};
 
 	return (
-		<form onSubmit={submitForm} style={formStyles}>
+		<form onSubmit={submitForm} className='registration-form'>
 			<div>Registration</div>
 			<label>
 				<strong>Name</strong>

@@ -1,19 +1,9 @@
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import { Link } from 'react-router-dom';
+import './login_module.scss';
 
 export const LoginFrom = ({ setLogedIn, navigate }) => {
-	const formStyles = {
-		display: 'flex',
-		flexDirection: 'column',
-		maxWidth: '500px',
-		margin: '0 auto',
-		width: '100%',
-		border: '2px solid yellow',
-		padding: '20px',
-		boxSizing: 'border-box',
-	};
-
 	const onSubmitHandler = (event) => {
 		event.preventDefault();
 
@@ -22,7 +12,7 @@ export const LoginFrom = ({ setLogedIn, navigate }) => {
 	};
 
 	return (
-		<form onSubmit={onSubmitHandler} style={formStyles}>
+		<form onSubmit={onSubmitHandler} className='login-form'>
 			<div>Login</div>
 			<label>
 				<strong>Email</strong>

@@ -1,6 +1,7 @@
 import { Button } from '../../common/Button/Button';
 import React from 'react';
 import { Input } from '../../common/Input/Input';
+import './create-course-form_module.scss';
 
 export const CreateCourse = ({ newCourse, handleSubmit, handleChange }) => {
 	const formStyles = {
@@ -18,7 +19,7 @@ export const CreateCourse = ({ newCourse, handleSubmit, handleChange }) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} style={formStyles}>
+		<form onSubmit={handleSubmit} className='create-course-form'>
 			<label>
 				<strong>title</strong>
 			</label>
