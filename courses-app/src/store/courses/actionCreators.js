@@ -1,4 +1,4 @@
-import { ADD_COURSE, COURSES_LOADED } from './actionTypes';
+import { ADD_COURSE, COURSES_LOADED, GET_COURSE } from './actionTypes';
 
 export const coursesLoaded = (newCourses) => {
 	return {
@@ -11,5 +11,12 @@ export const addNewCourse = (courses) => {
 	return {
 		type: ADD_COURSE,
 		courses,
+	};
+};
+
+export const getCourse = (course) => {
+	return {
+		type: GET_COURSE,
+		course,
 	};
 };

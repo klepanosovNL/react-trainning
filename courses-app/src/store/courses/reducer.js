@@ -1,7 +1,15 @@
-import { COURSES_LOADED, ADD_COURSE } from './actionTypes';
+import { COURSES_LOADED, ADD_COURSE, GET_COURSE } from './actionTypes';
 
 const initialState = {
 	courses: [],
+	currentCourse: {
+		title: '',
+		description: '',
+		creationDate: '',
+		duration: '',
+		authors: [],
+		id: '',
+	},
 };
 
 export const courseReducer = (state = initialState, action) => {
@@ -11,6 +19,12 @@ export const courseReducer = (state = initialState, action) => {
 			return {
 				...state,
 				courses: [...action.courses],
+			};
+
+		case GET_COURSE:
+			return {
+				...state,
+				currentCourse: action.course,
 			};
 
 		default:

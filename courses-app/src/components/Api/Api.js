@@ -1,6 +1,7 @@
 import {
 	coursesLoaded,
 	addNewCourse,
+	getCourse,
 } from '../../store/courses/actionCreators';
 import { authorsLoaded } from '../../store/authors/actionCreators';
 import { userRegistration, userLogIn } from '../../store/user/actionCreators';
@@ -16,6 +17,25 @@ export function fetchCourses() {
 
 		getResource('http://localhost:3000/courses/all').then((courses) => {
 			dispatch(coursesLoaded(courses));
+		});
+	};
+}
+
+export function getCourseById(id) {
+	return (dispatch) => {
+		const getResource = async (url) => {
+			const response = await fetch(url);
+			const data = await response.json();
+			// console.log(data);
+			const course = data.result;
+			console.log(course);
+			return course;
+		};
+		// 	getResourse(`http://localhost:3000/courses/${id}`).then((response) =>
+		// 		setCurrentCourse(response.result)
+		// 	);
+		getResource(`http://localhost:3000/courses/${id}`).then((course) => {
+			dispatch(getCourse(course));
 		});
 	};
 }
@@ -61,32 +81,28 @@ export function registration(user) {
 		};
 
 		addResource('http://localhost:3000/register').then((user) => {
-			// const courses = getState().courseReducer.courses;
-			// courses.push(course);
 			dispatch(userRegistration(user));
 		});
 	};
 }
 
-export function login(user) {
+export function login(result) {
 	return (dispatch) => {
 		const addResource = async (url) => {
 			const response = await fetch(url, {
 				method: 'POST',
-				body: JSON.stringify(user),
+				body: JSON.stringify(result),
 				headers: {
 					'Content-Type': 'application/json',
 					accept: 'application/json',
 				},
 			});
 
-			user = await response.json();
-			return user;
+			result = await response.json();
+			return result.user;
 		};
 
 		addResource('http://localhost:3000/login').then((user) => {
-			// const courses = getState().courseReducer.courses;
-			// courses.push(course);
 			dispatch(userLogIn(user));
 		});
 	};

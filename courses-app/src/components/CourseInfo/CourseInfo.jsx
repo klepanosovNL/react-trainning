@@ -1,21 +1,21 @@
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './course-info_module.scss';
-
-// import { getResourse } from '../Api/Api';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCourseById } from '../Api/Api';
 
 export const CourseInfo = () => {
-	const [currentCourse, setCurrentCourse] = useState({});
+	const currentCourse = useSelector(
+		(state) => state.courseReducer.currentCourse
+	);
 
+	const dispatch = useDispatch();
 	const id = useParams().id.substring(1);
-	console.log(useParams());
 
-	// useEffect(() => {
-	// 	getResourse(`http://localhost:3000/courses/${id}`).then((response) =>
-	// 		setCurrentCourse(response.result)
-	// 	);
-	// }, [id]);
+	useEffect(() => {
+		dispatch(getCourseById(id));
+	}, [id]);
 
 	return (
 		<div className='course-info__container'>
