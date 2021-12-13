@@ -5,8 +5,11 @@ export const CourseCard = ({ allCourses, handleRemove }) => {
 	return (
 		<ul>
 			{allCourses.map(
-				({ title, description, authors, duration, creationDate, id }) => (
-					<li className='course-card__item' id={id} key={title}>
+				(
+					{ title, description, authors, duration, creationDate, id },
+					index
+				) => (
+					<li className='course-card__item' id={id} key={index}>
 						<div
 							className='course-card__remove'
 							onClick={() => handleRemove(id)}

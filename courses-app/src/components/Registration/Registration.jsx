@@ -1,22 +1,27 @@
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import { Link } from 'react-router-dom';
-import { postResourse } from '../Api/Api';
+import './registration_module.scss';
+import { useDispatch } from 'react-redux';
+import { registration } from '../Api/Api';
 
 export const RegistrationFrom = ({ navigate }) => {
-	const submitForm = (event) => {
-		event.preventDefault();
+	const dispatch = useDispatch();
 
-		const { name, password, email } = event.target;
-		const user = {
-			name: name.value,
-			password: password.value,
-			email: email.value,
-		};
+	const submitForm = (e) => {
+		e.preventDefault();
+
+		const { name, password, email } = e.target;
+
+		dispatch(
+			registration({
+				name: name.value,
+				email: email.value,
+				password: password.value,
+			})
+		);
 
 		navigate('/login/');
-
-		// postResourse('http://localhost:3000/register', user);
 	};
 
 	return (
@@ -33,7 +38,7 @@ export const RegistrationFrom = ({ navigate }) => {
 			<label>
 				<strong>Passwords</strong>
 			</label>
-			<Input name='password' type='password' />
+			<Input name='password' />
 			<Button type='submit' name='registration' />
 			<Link to='/login/'>Login</Link>
 		</form>

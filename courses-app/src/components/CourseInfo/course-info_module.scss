@@ -1,0 +1,29 @@
+.course-info {
+    &__container {
+        display: flex;
+		flex-direction: column;
+		border: 2px solid red;
+		padding: 20px;
+		position: relative;
+    }
+
+    &__back-btn {
+        position: absolute;
+		left: 0;
+		top: 0;
+    }
+
+    &__title {
+        text-align: center;
+		font-size: 24px;
+		margin-bottom: 15px;
+    }
+
+    &__container-cell {
+        display: flex;
+    }
+
+    &__cell {
+        width: 50%;
+    }
+}

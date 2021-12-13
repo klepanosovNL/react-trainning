@@ -2,10 +2,24 @@ import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import { Link } from 'react-router-dom';
 import './login_module.scss';
+import { useDispatch } from 'react-redux';
+import { login } from '../Api/Api';
 
 export const LoginFrom = ({ setLogedIn, navigate }) => {
-	const onSubmitHandler = (event) => {
-		event.preventDefault();
+	const dispatch = useDispatch();
+
+	const onSubmitHandler = (e) => {
+		e.preventDefault();
+
+		const { name, password, email } = e.target;
+
+		dispatch(
+			login({
+				name: name.value,
+				email: email.value,
+				password: password.value,
+			})
+		);
 
 		setLogedIn(true);
 		navigate('/courses/');
