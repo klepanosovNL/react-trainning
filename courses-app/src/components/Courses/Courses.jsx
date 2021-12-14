@@ -24,7 +24,7 @@ export const Courses = ({
 			{modalIsVisible && (
 				<CreateCourse navigate={navigate} setVisible={setVisible} />
 			)}
-			<CourseCard allCourses={allCourses} handleRemove={handleRemove} />;
+			<CourseCard allCourses={allCourses} handleRemove={handleRemove} />
 		</>
 	);
 };

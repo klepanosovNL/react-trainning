@@ -2,6 +2,7 @@ import {
 	coursesLoaded,
 	addNewCourse,
 	getCourse,
+	deleteCourse,
 } from '../../store/courses/actionCreators';
 import { authorsLoaded } from '../../store/authors/actionCreators';
 import { userRegistration, userLogIn } from '../../store/user/actionCreators';
@@ -26,14 +27,10 @@ export function getCourseById(id) {
 		const getResource = async (url) => {
 			const response = await fetch(url);
 			const data = await response.json();
-			// console.log(data);
 			const course = data.result;
-			console.log(course);
 			return course;
 		};
-		// 	getResourse(`http://localhost:3000/courses/${id}`).then((response) =>
-		// 		setCurrentCourse(response.result)
-		// 	);
+
 		getResource(`http://localhost:3000/courses/${id}`).then((course) => {
 			dispatch(getCourse(course));
 		});
@@ -119,6 +116,29 @@ export function fetchAuthors() {
 
 		getResource('http://localhost:3000/authors/all').then((authors) => {
 			dispatch(authorsLoaded(authors));
+		});
+	};
+}
+
+export function deleteCourseById(id) {
+	return (dispatch, getState) => {
+		const addResource = async (url) => {
+			const result = await fetch(url, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					accept: 'application/json',
+				},
+				body: JSON.stringify({ id }),
+			});
+		};
+
+		addResource(`http://localhost:3000/courses/${id}`).then(() => {
+			const courses = getState().courseReducer.courses.filter((course) => {
+				return course.id !== id;
+			});
+
+			dispatch(deleteCourse(courses));
 		});
 	};
 }

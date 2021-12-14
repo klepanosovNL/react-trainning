@@ -9,7 +9,11 @@ import { RegistrationFrom } from './components/Registration/Registration';
 import { LoginFrom } from './components/Login/Login';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCourses, fetchAuthors } from './components/Api/Api';
+import {
+	fetchCourses,
+	fetchAuthors,
+	deleteCourseById,
+} from './components/Api/Api';
 
 export default function App() {
 	const dispatch = useDispatch();
@@ -21,7 +25,7 @@ export default function App() {
 	let navigate = useNavigate();
 
 	const handleRemove = (courseId) => {
-		// setAllCourses((prev) => prev.filter((course) => course.id !== courseId));
+		dispatch(deleteCourseById(courseId));
 	};
 
 	useEffect(() => {
