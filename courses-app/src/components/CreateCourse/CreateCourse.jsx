@@ -1,33 +1,45 @@
 import { Button } from '../../common/Button/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '../../common/Input/Input';
 import './create-course-form_module.scss';
+import { useDispatch } from 'react-redux';
+import { addCourse } from '../Api/Api';
 
-export const CreateCourse = ({ newCourse, handleSubmit, handleChange }) => {
-	const formStyles = {
-		display: 'flex',
-		flexDirection: 'column',
-		maxWidth: '400px',
-		position: 'absolute',
-		width: '100%',
-		left: '50%',
-		top: '50%',
-		transform: 'translate(-50%)',
-		boxShadow: '0 0 50px 20px',
-		backgroundColor: 'white',
-		zIndex: '1',
+export const CreateCourse = ({ navigate, setVisible }) => {
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [authors, setAuthors] = useState('');
+	const [duration, setDuration] = useState();
+	const dispatch = useDispatch();
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+
+		dispatch(
+			addCourse({
+				title,
+				description,
+				authors,
+				duration,
+			})
+		);
+
+		navigate('/courses/');
+		setVisible(false);
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className='create-course-form'>
+		<form onSubmit={submitHandler} className='create-course-form'>
 			<label>
 				<strong>title</strong>
 			</label>
 			<Input
 				name='title'
 				placeholder='title...'
-				value={newCourse.title || ''}
-				onChange={handleChange}
+				value={title || ''}
+				onChange={(e) => {
+					setTitle(e.target.value);
+				}}
 			/>
 			<label>
 				<strong>description</strong>
@@ -35,8 +47,10 @@ export const CreateCourse = ({ newCourse, handleSubmit, handleChange }) => {
 			<Input
 				name='description'
 				placeholder='description..'
-				value={newCourse.description || ''}
-				onChange={handleChange}
+				value={description || ''}
+				onChange={(e) => {
+					setDescription(e.target.value);
+				}}
 			/>
 			<label>
 				<strong>author</strong>
@@ -44,8 +58,10 @@ export const CreateCourse = ({ newCourse, handleSubmit, handleChange }) => {
 			<Input
 				name='authors'
 				placeholder='author'
-				value={newCourse.authors || ''}
-				onChange={handleChange}
+				value={authors || ''}
+				onChange={(e) => {
+					setAuthors(e.target.value);
+				}}
 			/>
 			<label>
 				<strong>duration</strong>
@@ -53,8 +69,10 @@ export const CreateCourse = ({ newCourse, handleSubmit, handleChange }) => {
 			<Input
 				name='duration'
 				placeholder='duration'
-				value={newCourse.duration || ''}
-				onChange={handleChange}
+				value={duration || ''}
+				onChange={(e) => {
+					setDuration(e.target.value);
+				}}
 				type='number'
 			/>
 			<Button name='save' type='submit' />

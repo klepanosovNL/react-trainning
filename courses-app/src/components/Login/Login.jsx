@@ -2,12 +2,25 @@ import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 import { Link } from 'react-router-dom';
 import './login_module.scss';
+import { useDispatch } from 'react-redux';
+import { login } from '../Api/Api';
 
-export const LoginFrom = ({ setLogedIn, navigate }) => {
-	const onSubmitHandler = (event) => {
-		event.preventDefault();
+export const LoginFrom = ({ navigate }) => {
+	const dispatch = useDispatch();
 
-		setLogedIn(true);
+	const onSubmitHandler = (e) => {
+		e.preventDefault();
+
+		const { password, email } = e.target;
+
+		dispatch(
+			login({
+				email: email.value,
+				password: password.value,
+			})
+		);
+
+		// setLogedIn(true);
 		navigate('/courses/');
 	};
 
@@ -17,7 +30,7 @@ export const LoginFrom = ({ setLogedIn, navigate }) => {
 			<label>
 				<strong>Email</strong>
 			</label>
-			<Input type='email' name='password' />
+			<Input type='email' name='email' />
 			<label>
 				<strong>Passwords</strong>
 			</label>
